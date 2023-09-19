@@ -136,6 +136,7 @@ module Make (Ethernet : Ethernet.S) (Time : Mirage_time.S) = struct
     | Arp_handler.Mac mac -> Lwt.return (Ok mac)
 
   let connect ethif =
+    Time.sleep_ns (Duration.of_sec 30) >>= fun () ->
     let mac = Ethernet.mac ethif in
     let state = init_empty mac in
     let t = { ethif; state; ticking = true} in
